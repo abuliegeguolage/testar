@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-const lang = ref('tw');
+const { locale } = useI18n()
+
 </script>
 
 <template>
@@ -13,11 +15,12 @@ const lang = ref('tw');
             </div>
             <div class="items-center">
                 <el-menu mode="horizontal" :ellipsis="false">
-                    <el-menu-item>測驗</el-menu-item>
-                    <el-menu-item>占卜</el-menu-item>
+                    <el-menu-item>{{ $t("psychological-test") }}</el-menu-item>
+                    <el-menu-item>{{ $t("divination") }}</el-menu-item>
                 </el-menu>
-                <el-select v-model="lang" style="width: 140px;">
+                <el-select v-model="locale" style="width: 140px;">
                     <el-option label="中文（繁體）" value="tw"></el-option>
+                    <el-option label="English" value="en"></el-option>
                 </el-select>
             </div>
         </div>
