@@ -8,11 +8,33 @@
     padding: 0;
 }
 
+a {
+    color: unset;
+    text-decoration: none;
+}
+
+.hidden {
+    display: none;
+}
+
 .flex {
     display: flex;
 }
 
 .items-center {
-    display: flex;
     align-items: center;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+    .md-hidden {
+        display: none;
+    }
+
+    .md-flex {
+        display: flex;
+    }
 }
