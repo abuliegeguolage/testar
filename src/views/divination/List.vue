@@ -1,7 +1,5 @@
 <script lang="ts" setup></script>
 
-<template>
-    
-</template>
+<template></template>
 
 <style lang="less" scoped></style>
