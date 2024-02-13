@@ -8,7 +8,14 @@ export default mergeConfig(
     test: {
       environment: 'jsdom',
       exclude: [...configDefaults.exclude, 'e2e/*'],
-      root: fileURLToPath(new URL('./', import.meta.url))
+      root: fileURLToPath(new URL('./', import.meta.url)),
+
+      server: {
+        deps: {
+          inline: ['element-plus']
+        }
+      },
+      setupFiles: ['./src/components/__tests__/global-mocks.ts']
     }
   })
 )

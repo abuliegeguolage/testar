@@ -5,8 +5,6 @@ import Navigation from './Navigation.vue';
 
 const isDrawerOpen = ref(false);
 
-
-
 </script>
 
 <template>
