@@ -23,6 +23,7 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     Header: typeof import('./src/components/header/index.vue')['default']
     Index: typeof import('./src/components/header/Index.vue')['default']
+    Info: typeof import('./src/components/divination/Info.vue')['default']
     Nav: typeof import('./src/components/header/Nav.vue')['default']
     Navigation: typeof import('./src/components/header/Navigation.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
