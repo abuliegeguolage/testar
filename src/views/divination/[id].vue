@@ -3,8 +3,6 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Info from '@/components/divination/Info.vue';
 
-const route = useRoute();
-
 import {
     Chart as ChartJS,
     RadialLinearScale,
@@ -15,6 +13,8 @@ import {
     Legend
 } from 'chart.js'
 import { Radar } from 'vue-chartjs'
+
+const route = useRoute();
 
 ChartJS.register(
     RadialLinearScale,
