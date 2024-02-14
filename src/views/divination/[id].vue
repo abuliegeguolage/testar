@@ -64,7 +64,7 @@ const options = ref();
 main {
     --opacity-bg: color-mix(in srgb, var(--el-color-primary-light-7) 70%, transparent 0%);
     margin: 2rem auto;
-    width: var(--container-max-width);
+    max-width: var(--container-max-width);
 
     @media screen and (min-width: 768px) {
         position: relative;
