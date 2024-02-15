@@ -1,43 +1,37 @@
 import { randomIndexWithSalt } from "@/utils/random"
 import { useI18n } from "vue-i18n"
 
-type IndependentDivinationData = {
+export type IndependentDivinationData = {
   [key in 'comments' | 'colors' | 'directions' | 'lucky-time']: string
 }
 
-export const getIndependentDivination = async () => {
-  const { locale } = useI18n()
-
-  const divinationData = await fetch('/divination/independent.json')
+export const getIndependentDivination = async (aionId: number, locale: string) => {
+  const divinationData = await fetch(`/divination/independent-${locale}.json`)
     .then(res => res.json())
 
   return Object.keys(divinationData)
     .reduce<IndependentDivinationData>((data, key) => {
-      const multLangData = divinationData[key]
-      const options = multLangData[locale.value] || multLangData.tw
-      data[key as keyof IndependentDivinationData] = options[randomIndexWithSalt(key, options)]
+      const options = divinationData[key]
+      data[key as keyof IndependentDivinationData] = options[randomIndexWithSalt(key + aionId, options)]
       return data
     }, {} as IndependentDivinationData)
 }
 
-type ClassifiableDivinationData = {
+export type ClassifiableDivinationData = {
   [key in 'love' | 'work' | 'money' | 'journey' | 'health']: {
     score: number
     text: string
   }
 }
 
-export const getClassifiableDivinationData = async () => {
-  const { locale } = useI18n()
-
-  const classifiableData = await fetch('/divination/classifiable.json')
+export const getClassifiableDivinationData = async (aionId: number, locale: string) => {
+  const classifiableData = await fetch(`/divination/classifiable-${locale}.json`)
     .then(res => res.json())
 
   return Object.keys(classifiableData)
     .reduce<ClassifiableDivinationData>((data, key) => {
-      const multLangData = classifiableData[key]
-      const options = multLangData[locale.value] || multLangData.tw
-      const index = randomIndexWithSalt(key, options)
+      const options = classifiableData[key]
+      const index = randomIndexWithSalt(key + aionId, options)
       data[key as keyof ClassifiableDivinationData] = {
         score: index + 1, text: options[index]
       }
