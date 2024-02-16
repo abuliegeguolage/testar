@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import Info from '@/components/divination/Info.vue';
 
 import {
     Chart as ChartJS,
@@ -14,6 +13,9 @@ import {
     Legend
 } from 'chart.js'
 import { Radar } from 'vue-chartjs'
+
+import AionModel from '@/components/AionModel.vue';
+import Info from '@/components/divination/Info.vue';
 
 import {
     type IndependentDivinationData,
@@ -75,7 +77,7 @@ const options = ref();
 
 <template>
     <main>
-        <div class="charactor" style="height: 400px; background-color: pink;"></div>
+        <AionModel class="charactor"></AionModel>
         <section class="description">
             <template v-if="aion">
                 <h4 class="light-border">{{ aion.name }}</h4>
@@ -134,7 +136,8 @@ main {
     .charactor {
         display: inline-block;
         margin-bottom: 1rem;
-        width: 940px;
+        width: 800px;
+        height: 400px;
         max-width: 90vw;
 
         @media screen and (max-width: 767px) {
