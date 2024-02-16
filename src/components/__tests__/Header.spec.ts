@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest'
 
-import { mount } from '@vue/test-utils'
+import { RouterLinkStub, mount } from '@vue/test-utils'
 import Header from '../header/Index.vue'
 
-describe('HelloWorld', () => {
+describe('Header', () => {
     it('renders properly', () => {
         const wrapper = mount(
             Header,
