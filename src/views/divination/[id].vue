@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import Info from '@/components/divination/Info.vue';
 
 import {
@@ -14,7 +15,17 @@ import {
 } from 'chart.js'
 import { Radar } from 'vue-chartjs'
 
+import {
+    type IndependentDivinationData,
+    type ClassifiableDivinationData,
+    getIndependentDivination,
+    getClassifiableDivinationData
+} from '@/api/modules/divination';
+import { getAionById } from '@/api/modules/aion';
+
 const route = useRoute();
+
+const { locale } = useI18n()
 
 ChartJS.register(
     RadialLinearScale,
@@ -25,8 +36,27 @@ ChartJS.register(
     Legend
 );
 
-const data = ref({
-    labels: ['綜合', '事業', '財富', '愛情', '學業'],
+const independentDivination = ref<IndependentDivinationData>();
+const classifiableDivinationData = ref<ClassifiableDivinationData>();
+const aion = ref();
+const scores = ref<number[]>([]);
+
+(async () => {
+    const aionId = Number(route.params.id);
+    independentDivination.value = await getIndependentDivination(aionId, locale.value)
+    classifiableDivinationData.value = await getClassifiableDivinationData(aionId, locale.value)
+    aion.value = await getAionById(aionId, locale.value);
+    scores.value = [
+        classifiableDivinationData.value.health.score,
+        classifiableDivinationData.value.journey.score,
+        classifiableDivinationData.value.love.score,
+        classifiableDivinationData.value.money.score,
+        classifiableDivinationData.value.work.score
+    ]
+})()
+
+const radarData = computed(() => ({
+    labels: ['健康', '旅遊', '愛情', '財富', '事業'],
     datasets: [{
         label: '今日運勢',
         backgroundColor: 'rgba(179,181,198,0.2)',
@@ -35,26 +65,57 @@ const data = ref({
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
         pointHoverBorderColor: 'rgba(179,181,198,1)',
-        data: [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]
+        data: scores.value
     }]
-});
+}));
+
 const options = ref();
 
 </script>
 
 <template>
     <main>
-        <div class="charactor" style="height: 80vh;; background-color: pink;"></div>
+        <div class="charactor" style="height: 400px; background-color: pink;"></div>
         <section class="description">
-            <h4 class="light-border">冠之星靈</h4>
-            <p class="light-border">
-                「他是一個……令人不敢再看一眼的星靈。」——五星上將麥克阿瑟
-            </p>
+            <template v-if="aion">
+                <h4 class="light-border">{{ aion.name }}</h4>
+                <article class="light-border">
+                    <p>
+                        {{ `「${aion.evaluation?.content}」` }}
+                    </p>
+                    <p class="text-right">
+                        {{ '——' + aion.evaluation?.author }}
+                    </p>
+                </article>
+
+            </template>
         </section>
-        <Info :title="$t('divination')"
-            :description="'幸運色：灰\n幸運數字：2.5\n今日不宜：再看一眼、靠近一點\n幸運色：灰\n幸運數字：2.5\n今日不宜：再看一眼、靠近一點\n幸運色：灰\n幸運數字：2.5\n今日不宜：再看一眼、靠近一點'">
+        <Info :title="$t('divination')">
             <div class="radar">
-                <Radar :data="data" :options="options"></Radar>
+                <el-tabs type="border-card">
+                    <el-tab-pane label="圖表">
+                        <div class="radar-canvas">
+                            <Radar :data="radarData" :options="options"></Radar>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="詳情">
+                        <p>{{
+                            '健康：\n' + classifiableDivinationData?.health.text
+                            + '\n\n旅遊：\n' + classifiableDivinationData?.journey.text
+                            + '\n\n愛情：\n' + classifiableDivinationData?.love.text
+                            + '\n\n財富：\n' + classifiableDivinationData?.money.text
+                            + '\n\n事業：\n' + classifiableDivinationData?.work.text
+
+                        }}</p>
+                        <!-- <p>{{
+                            '今日箴言：\n「' + independentDivination?.comments + '」'
+                            + '\n幸運色：\n' + independentDivination?.colors
+                            + '\n幸運方向：\n' + independentDivination?.directions
+                            + '\n幸運時刻：\n' + independentDivination?.['lucky-time']
+                        }}</p> -->
+                    </el-tab-pane>
+                </el-tabs>
+
             </div>
         </Info>
     </main>
@@ -85,9 +146,11 @@ main {
     .description {
         left: 1rem;
         bottom: 0;
+        z-index: 1;
 
         @media screen and (min-width: 768px) {
             position: absolute;
+            max-width: 50%;
         }
 
         @media screen and (max-width: 767px) {
@@ -102,7 +165,7 @@ main {
             background-color: var(--opacity-bg);
         }
 
-        p {
+        article {
             padding: 1rem;
             border-top: unset;
             border-radius: 0 6px 6px 6px;
@@ -111,14 +174,23 @@ main {
     }
 
     .radar {
+        display: flex;
         margin-right: 1rem;
-        width: 300px;
-        border-radius: 6px;
-        background-color: var(--el-text-color-primary);
 
         @media screen and (max-width: 767px) {
-            margin-right: unset;
+            margin: auto;
             margin-top: 1rem;
+        }
+
+        .radar-canvas {
+            width: 300px;
+            background-color: var(--el-text-color-primary);
+            border-radius: 6px;
+
+            @media screen and (max-width: 767px) {
+                width: 66vw;
+                height: 66vw;
+            }
         }
     }
 

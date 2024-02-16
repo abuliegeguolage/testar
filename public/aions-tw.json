@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "牙之星靈",
+    "evaluation": {
+      "content": "他就是一個閒不下來的過動兒。",
+      "author": "無形之星靈"
+    },
+    "relation": {
+      "good": 2,
+      "bad": 6
+    }
+  },
+  {
+    "id": 2,
+    "name": "無形之星靈",
+    "evaluation": {
+      "content": "我們三天前的躲貓貓到現在還沒分出勝負。",
+      "author": "牙之星靈"
+    },
+    "relation": {
+      "good": 1,
+      "bad": 3
+    }
+  },
+  {
+    "id": 3,
+    "name": "冠之星靈",
+    "evaluation": {
+      "content": "他是一位……令人不敢再看一眼的星靈。",
+      "author": "五星上將麥克阿瑟"
+    },
+    "relation": {
+      "good": 1,
+      "bad": 6
+    }
+  },
+  {
+    "id": 4,
+    "name": "爪之星靈",
+    "evaluation": {
+      "content": "敦厚老實的他會是個好鄰居——但凡不要拆家。",
+      "author": "環之星靈"
+    },
+    "relation": {
+      "good": 5,
+      "bad": 6
+    }
+  },
+  {
+    "id": 5,
+    "name": "鰭之星靈",
+    "evaluation": {
+      "content": "……（o△o）",
+      "author": "爪之星靈"
+    },
+    "relation": {
+      "good": 2,
+      "bad": 3
+    }
+  },
+  {
+    "id": 6,
+    "name": "環之星靈",
+    "evaluation": {
+      "content": "雖然平時毒舌，但還是會為大家著想的……大概吧。",
+      "author": "鰭之星靈"
+    },
+    "relation": {
+      "good": 5,
+      "bad": 3
+    }
+  }
+]

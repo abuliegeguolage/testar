@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
+
 const props = defineProps(["title", "description"])
 </script>
 
@@ -53,13 +55,19 @@ const props = defineProps(["title", "description"])
     .content {
         display: flex;
         padding: 1rem;
-        white-space: pre;
+        max-width: 40vw;
+        white-space: break-spaces;
         border-top: 1px solid var(--el-color-primary-light-9);
         border-radius: 0 0 6px 6px;
         background-color: var(--opacity-bg);
 
         @media screen and (max-width: 767px) {
             flex-direction: column-reverse;
+            max-width: unset;
+        }
+
+        p {
+            white-space: break-spaces;
         }
     }
 }
