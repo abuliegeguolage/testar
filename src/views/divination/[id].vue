@@ -175,7 +175,6 @@ main {
 
     .radar {
         display: flex;
-        margin-right: 1rem;
 
         @media screen and (max-width: 767px) {
             margin: auto;

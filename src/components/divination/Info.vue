@@ -7,12 +7,12 @@ const props = defineProps(["title", "description"])
 <template>
     <section class="divination">
         <h4>{{ props.title }}</h4>
-        <section class="content">
+        <div class="content">
             <slot></slot>
             <p>
                 {{ props.description }}
             </p>
-        </section>
+        </div>
     </section>
 </template>
 
@@ -23,6 +23,7 @@ const props = defineProps(["title", "description"])
 
     @media screen and (min-width: 768px) {
         position: absolute;
+        max-width: 50%;
     }
 
     @media screen and (max-width: 767px) {
@@ -55,7 +56,6 @@ const props = defineProps(["title", "description"])
     .content {
         display: flex;
         padding: 1rem;
-        max-width: 40vw;
         white-space: break-spaces;
         border-top: 1px solid var(--el-color-primary-light-9);
         border-radius: 0 0 6px 6px;
